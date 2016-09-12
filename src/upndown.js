@@ -88,8 +88,8 @@ export default class upndown {
           'thead',
           'tbody',
           'tfoot',
-          'iframe',
-        ]
+          'iframe'
+        ];
 
         let is_allowed_tag = allowed_tags.indexOf(lenode.name) > -1;
 
