@@ -77,7 +77,7 @@ export default class upndown {
 
         let markdown = '';
         let method = 'wrap_' + lenode.name;
-        let table_check = [
+        let allowed_tags = [
           'table',
           'th',
           'tr',
@@ -87,15 +87,16 @@ export default class upndown {
           'col',
           'thead',
           'tbody',
-          'tfoot'
+          'tfoot',
+          'iframe',
         ]
 
-        let is_table = table_check.indexOf(lenode.name) > -1;
+        let is_allowed_tag = allowed_tags.indexOf(lenode.name) > -1;
 
         if(method in this) {
             markdown = this[method](lenode, innerMarkdown);
         } else {
-            if(options.keepHtml || is_table) {
+            if(options.keepHtml || is_allowed_tag) {
                 markdown = this.wrap_generic(lenode, innerMarkdown);
             } else {
                 markdown = innerMarkdown;
