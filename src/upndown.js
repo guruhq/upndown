@@ -18,7 +18,7 @@ export default class upndown {
             return cbk(null, dom);
         }, { withDomLvl1: false, withStartIndices: false });
 
-        let p = new htmlparser.Parser(handler, { decodeEntities: true });
+        let p = new htmlparser.Parser(handler, { decodeEntities: false });
         p.write(html);
         p.end();
     }
@@ -77,11 +77,25 @@ export default class upndown {
 
         let markdown = '';
         let method = 'wrap_' + lenode.name;
+        let table_check = [
+          'table',
+          'th',
+          'tr',
+          'td',
+          'caption',
+          'colgroup',
+          'col',
+          'thead',
+          'tbody',
+          'tfoot'
+        ]
+
+        let is_table = table_check.indexOf(lenode.name) > -1;
 
         if(method in this) {
             markdown = this[method](lenode, innerMarkdown);
         } else {
-            if(options.keepHtml) {
+            if(options.keepHtml || is_table) {
                 markdown = this.wrap_generic(lenode, innerMarkdown);
             } else {
                 markdown = innerMarkdown;
