@@ -24,7 +24,7 @@
   "main": "./lib/upndown.node.js",
   "scripts": {
     "browserify": "node node_modules/.bin/browserify lib/upndown.node.js -s upndown > lib/upndown.bundle.js",
-    "build": "npm run lint && npm run compile && npm run test && npm run browserify && npm run uglify",
+    "build": "npm run lint && npm run compile && npm run browserify && npm run uglify",
     "compile": "node node_modules/.bin/babel src/upndown.js > lib/upndown.node.js",
     "lint": "node node_modules/.bin/eslint src/upndown.js",
     "test": "node node_modules/.bin/mocha",

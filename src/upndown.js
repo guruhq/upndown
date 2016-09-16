@@ -186,42 +186,42 @@ export default class upndown {
     // Block level elements
 
     wrap_h1(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n# ' + markdown + '\n';
     }
     wrap_h2(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n## ' + markdown + '\n';
     }
     wrap_h3(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n### ' + markdown + '\n';
     }
     wrap_h4(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n#### ' + markdown + '\n';
     }
     wrap_h5(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n##### ' + markdown + '\n';
     }
     wrap_h6(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n###### ' + markdown + '\n';
     }
 
     wrap_blockquote(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n' + markdown.trim().replace(/^/gm, '> ') + '\n';
     }
 
     wrap_pre(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n' + markdown.trim().replace(/^/gm, this.tabindent).replace(/ /g, this.nbsp) + '\n';
     }
 
     wrap_code(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         if(this.hasAncestorOfType(node, ['pre'])) {
             return markdown;
         }
@@ -230,17 +230,17 @@ export default class upndown {
     }
 
     wrap_ul(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n' + markdown.trim() + '\n';
     }
 
     wrap_ol(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return this.wrap_ul(node, markdown);
     }
 
     wrap_li(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         let bullet = '* ';
 
         if(node.parent && node.parent.type === 'tag' && node.parent.name === 'ol') {
@@ -276,42 +276,42 @@ export default class upndown {
     }
 
     wrap_p(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n' + markdown + '\n';
     }
 
     wrap_br(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '  \n';
     }
 
     wrap_hr(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '\n* * *\n';
     }
 
     // Inline elements
 
     wrap_strong(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '**' + markdown + '**';
     }
     wrap_b(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return this.wrap_strong(node, markdown);
     }
 
     wrap_em(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return '*' + markdown + '*';
     }
     wrap_i(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         return this.wrap_em(node, markdown);
     }
 
     wrap_a(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         let url = this.getAttrOrFalse('href', node);
         let title = this.getAttrOrFalse('title', node);
 
@@ -327,7 +327,7 @@ export default class upndown {
     }
 
     wrap_img(node, markdown) {
-        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         let alt = this.getAttrOrFalse('alt', node);
         let src = this.getAttrOrFalse('src', node);
         let title = this.getAttrOrFalse('title', node);
