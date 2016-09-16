@@ -10,6 +10,19 @@ export default class upndown {
         this.htmlblocklevelelement = ['div', 'iframe', 'script'];
         this.tabindent = '    ';
         this.nbsp = '\u0000';
+        this.allowed_tags = [
+          'table',
+          'th',
+          'tr',
+          'td',
+          'caption',
+          'colgroup',
+          'col',
+          'thead',
+          'tbody',
+          'tfoot',
+          'iframe'
+        ];
     }
 
     parse(html, cbk) {
@@ -77,21 +90,8 @@ export default class upndown {
 
         let markdown = '';
         let method = 'wrap_' + lenode.name;
-        let allowed_tags = [
-          'table',
-          'th',
-          'tr',
-          'td',
-          'caption',
-          'colgroup',
-          'col',
-          'thead',
-          'tbody',
-          'tfoot',
-          'iframe'
-        ];
 
-        let is_allowed_tag = allowed_tags.indexOf(lenode.name) > -1;
+        let is_allowed_tag = this.allowed_tags.indexOf(lenode.name) > -1;
 
         if(method in this) {
             markdown = this[method](lenode, innerMarkdown);
@@ -185,17 +185,43 @@ export default class upndown {
 
     // Block level elements
 
-    wrap_h1(node, markdown) { return '\n# ' + markdown + '\n'; }
-    wrap_h2(node, markdown) { return '\n## ' + markdown + '\n'; }
-    wrap_h3(node, markdown) { return '\n### ' + markdown + '\n'; }
-    wrap_h4(node, markdown) { return '\n#### ' + markdown + '\n'; }
-    wrap_h5(node, markdown) { return '\n##### ' + markdown + '\n'; }
-    wrap_h6(node, markdown) { return '\n###### ' + markdown + '\n'; }
+    wrap_h1(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n# ' + markdown + '\n';
+    }
+    wrap_h2(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n## ' + markdown + '\n';
+    }
+    wrap_h3(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n### ' + markdown + '\n';
+    }
+    wrap_h4(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n#### ' + markdown + '\n';
+    }
+    wrap_h5(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n##### ' + markdown + '\n';
+    }
+    wrap_h6(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n###### ' + markdown + '\n';
+    }
 
-    wrap_blockquote(node, markdown) { return '\n' + markdown.trim().replace(/^/gm, '> ') + '\n'; }
-    wrap_pre(node, markdown) { return '\n' + markdown.trim().replace(/^/gm, this.tabindent).replace(/ /g, this.nbsp) + '\n'; }
+    wrap_blockquote(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n' + markdown.trim().replace(/^/gm, '> ') + '\n';
+    }
+
+    wrap_pre(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n' + markdown.trim().replace(/^/gm, this.tabindent).replace(/ /g, this.nbsp) + '\n';
+    }
 
     wrap_code(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         if(this.hasAncestorOfType(node, ['pre'])) {
             return markdown;
         }
@@ -203,10 +229,18 @@ export default class upndown {
         return '`' + markdown.trim() + '`';
     }
 
-    wrap_ul(node, markdown) { return '\n' + markdown.trim() + '\n'; }
-    wrap_ol(node, markdown) { return this.wrap_ul(node, markdown); }
-    wrap_li(node, markdown) {
+    wrap_ul(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n' + markdown.trim() + '\n';
+    }
 
+    wrap_ol(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return this.wrap_ul(node, markdown);
+    }
+
+    wrap_li(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         let bullet = '* ';
 
         if(node.parent && node.parent.type === 'tag' && node.parent.name === 'ol') {
@@ -241,22 +275,43 @@ export default class upndown {
         return bullet + markdown.replace(/^/gm, this.tabindent).trim() + '\n';
     }
 
-    wrap_p(node, markdown) { return '\n' + markdown + '\n'; }
+    wrap_p(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n' + markdown + '\n';
+    }
 
-    wrap_br(/*node, markdown*/) { return '  \n'; }
+    wrap_br(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '  \n';
+    }
 
-    wrap_hr(/*node, markdown*/) { return '\n* * *\n'; }
+    wrap_hr(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '\n* * *\n';
+    }
 
     // Inline elements
 
-    wrap_strong(node, markdown) { return '**' + markdown + '**'; }
-    wrap_b(node, markdown) { return this.wrap_strong(node, markdown); }
+    wrap_strong(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '**' + markdown + '**';
+    }
+    wrap_b(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return this.wrap_strong(node, markdown);
+    }
 
-    wrap_em(node, markdown) { return '*' + markdown + '*'; }
-    wrap_i(node, markdown) { return this.wrap_em(node, markdown); }
+    wrap_em(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return '*' + markdown + '*';
+    }
+    wrap_i(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+        return this.wrap_em(node, markdown);
+    }
 
     wrap_a(node, markdown) {
-
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         let url = this.getAttrOrFalse('href', node);
         let title = this.getAttrOrFalse('title', node);
 
@@ -271,7 +326,8 @@ export default class upndown {
         return '[' + markdown + '](' + (url ? url : '') + (title ? ' "' + title + '"' : '') + ')';
     }
 
-    wrap_img(node/*, markdown*/) {
+    wrap_img(node, markdown) {
+        if(this.hasAncestorsOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
         let alt = this.getAttrOrFalse('alt', node);
         let src = this.getAttrOrFalse('src', node);
         let title = this.getAttrOrFalse('title', node);
