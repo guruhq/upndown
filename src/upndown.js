@@ -1,6 +1,7 @@
 'use strict';
 
 import htmlparser from 'htmlparser2';
+import jb from 'js-beautify';
 
 export default class upndown {
 
@@ -119,6 +120,8 @@ export default class upndown {
                 if(!isPrevNonBlankTextBlock) { markdown = '\n' + markdown; }
             }
         }
+
+        markdown = jb.html(markdown);
 
         resolve(markdown);
     }
@@ -280,8 +283,7 @@ export default class upndown {
         return '\n' + markdown + '\n';
     }
 
-    wrap_br(node, markdown) {
-        if(this.hasAncestorOfType(node, this.allowed_tags)) { return this.wrap_generic(node, markdown); }
+    wrap_br() {
         return '  \n';
     }
 
