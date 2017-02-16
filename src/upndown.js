@@ -121,7 +121,6 @@ export default class upndown {
             }
         }
 
-        markdown = jb.html(markdown);
 
         resolve(markdown);
     }
@@ -182,7 +181,7 @@ export default class upndown {
             htmlattribs += " " + attrs[attrnamekey] + '="' + node.attribs[attrs[attrnamekey]] + '"';
         }
 
-        return '<' + node.name + htmlattribs + '>' + markdown.replace(/\s+/gm, ' ') + '</' + node.name + '>' + (this.isHtmlBlockLevelElement(node.name) ? '\n' : '');
+        return jb.html('<' + node.name + htmlattribs + '>' + markdown.replace(/\s+/gm, ' ') + '</' + node.name + '>' + (this.isHtmlBlockLevelElement(node.name) ? '\n' : ''));
         //return markdown;
     }
 
