@@ -319,7 +319,7 @@ export default class upndown {
         if (!url) {
             return markdown;
         } else if (url && url === markdown && (!title || title === '')) {
-            return '<' + url + '>';
+            return '[](' + url + ')';
         } else if ((url === markdown || url.replace(/^mailto:/, '') === markdown) && (!title || title === '')) {
             return '<' + url.replace(/^mailto:/, '') + '>';
         }
